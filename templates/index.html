@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class Schedule</title>
+</head>
+<body>
+    <h1>Today's Classes</h1>
+    <ul>
+        {% for event in events %}
+        <li>{{ event.summary }} ({{ event.start.strftime('%H:%M') }} - {{ event.end.strftime('%H:%M') }})</li>
+        {% else %}
+        <li>No classes today.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
