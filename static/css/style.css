@@ -1,0 +1,45 @@
+body {
+    background-image: url('../fundo.jpg');
+    background-size: cover; /* Cover the entire page */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center center; /* Center the image */
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+}
+h1 {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 30px; /* Additional space below the title */
+}
+.event {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px; /* Increased space between events */
+    padding: 20px; /* Increased padding inside each event */
+}
+.event-summary {
+    flex: 2; /* allows summary to take more space */
+    padding-right: 10px; /* Space between summary and time */
+}
+.event-time {
+    flex: 1;
+    padding: 0 10px; /* Space inside the time column */
+}
+.event-location {
+    flex: 1;
+    font-weight: bold;
+    font-size: larger;
+    text-align: right; /* Aligns the location text to the right */
+}
+
+
