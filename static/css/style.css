@@ -24,7 +24,7 @@ h1 {
     justify-content: space-between;
     background-color: #fff;
     border-bottom: 1px solid #ddd;
-    margin-bottom: 15px; /* Increased space between events */
+    margin-bottom: 30px; /* Increased space between events */
     padding: 20px; /* Increased padding inside each event */
 }
 .event-summary {
@@ -41,5 +41,14 @@ h1 {
     font-size: larger;
     text-align: right; /* Aligns the location text to the right */
 }
+.logo-container {
+    text-align: center; /* Center the logo container */
+    margin-top: 50px; /* Space from the content above */
+    margin-bottom: 20px; /* Space from the bottom of the page */
+}
 
+.logo-container img {
+    max-width: 10%; /* Ensures the logo is responsive */
+    height: auto; /* Maintain aspect ratio */
+}
 

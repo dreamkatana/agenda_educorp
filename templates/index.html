@@ -9,17 +9,21 @@
 <body>
     <div class="container">
         <h1>AGENDA - {{ current_date }}</h1>
-        <div id="events">
-            {% for event in all_events %}
-            <div class="event">
-                <div class="event-summary">{{ event.summary }}</div>
-                <div class="event-time">{{ event.start.strftime('%H:%M') }} até {{ event.end.strftime('%H:%M') }}</div>
-                <div class="event-location">{{ event.location }}</div>
-            </div>
-            {% else %}
-            <div>No events today.</div>
+        {% for location, events in events_by_location.items() %}
+            <h2 class="location-header">{{ location }}</h2>
+            {% for event in events %}
+                <div class="event">
+                    <div class="event-summary">{{ event.summary }}</div>
+                    <div class="event-time">{{ event.start.strftime('%H:%M') }} - {{ event.end.strftime('%H:%M') }}</div>
+                </div>
             {% endfor %}
-        </div>
+        {% else %}
+            <div>No events today.</div>
+        {% endfor %}
+    </div>
+    <!-- Logo at the bottom -->
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
     </div>
 </body>
 </html>
