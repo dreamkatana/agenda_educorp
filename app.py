@@ -40,7 +40,8 @@ def parse_ics(ics_content):
 
 def filter_current_events(events):
     #add 1 day to current date
-    current_date = datetime.now(pytz.timezone('America/Sao_Paulo')).date() + timedelta(days=2)
+    #current_date = datetime.now(pytz.timezone('America/Sao_Paulo')).date() + timedelta(days=2)
+    current_date = datetime.now(pytz.timezone('America/Sao_Paulo')).date() 
     return [event for event in events if event['start'].date() <= current_date and event['end'].date() >= current_date]
 
 @app.route('/')

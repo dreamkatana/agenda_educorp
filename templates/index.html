@@ -11,15 +11,18 @@
         <h1>AGENDA - {{ current_date }}</h1>
         {% for location, events in events_by_location.items() %}
             <h2 class="location-header">{{ location }}</h2>
+            <hr>
             {% for event in events %}
                 <div class="event">
                     <div class="event-summary">{{ event.summary }}</div>
                     <div class="event-time">{{ event.start.strftime('%H:%M') }} - {{ event.end.strftime('%H:%M') }}</div>
                 </div>
             {% endfor %}
+            
         {% else %}
             <div>No events today.</div>
         {% endfor %}
+
     </div>
     <!-- Logo at the bottom -->
     <div class="logo-container">

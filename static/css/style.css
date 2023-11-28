@@ -24,8 +24,9 @@ h1 {
     justify-content: space-between;
     background-color: #fff;
     border-bottom: 1px solid #ddd;
-    margin-bottom: 30px; /* Increased space between events */
+    margin-bottom: 10px; /* Increased space between events */
     padding: 20px; /* Increased padding inside each event */
+    font-weight: bold;
 }
 .event-summary {
     flex: 2; /* allows summary to take more space */
@@ -52,3 +53,13 @@ h1 {
     height: auto; /* Maintain aspect ratio */
 }
 
+.location-header {
+    text-align: right;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 7px;
+}
+hr {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
