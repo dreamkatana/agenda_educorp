@@ -44,7 +44,7 @@ def filter_current_events(events):
     current_date = datetime.now(pytz.timezone('America/Sao_Paulo')).date() 
     return [event for event in events if event['start'].date() <= current_date and event['end'].date() >= current_date]
 
-@app.route('/')
+@app.route('/agenda')
 def index():
     #creat a disctionary of events with name and url
     dic_events = {"Sala Multiuso II - 2E": "https://calendar.google.com/calendar/ical/unicamp.br_39uv0cjnnp55namoohfp5reh64%40group.calendar.google.com/public/basic.ics",
