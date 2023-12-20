@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Agenda</title>
     <!-- Add any styles or links to stylesheets here -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css', _external=True) }}">
+    <link rel="stylesheet" type="text/css" href="https://servicos.educorp.unicamp.br/static/css/style.css">
 </head>
 <body>
     <div class="container">
@@ -24,9 +24,12 @@
         {% endfor %}
 
     </div>
-    <!-- Logo at the bottom -->
-    <div class="logo-container">
-        <img src="{{ url_for('static', filename='logo.png', _external=True) }}" alt="Logo">
+    <!-- Logo at the bottom 
+    <img src="{{ url_for('static', filename='logo.png', _external=True) }}" alt="Logo">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css', _external=True) }}">
+    -->
+    <div class="logo-container">        
+        <img src="https://servicos.educorp.unicamp.br/static/logo.png" alt="Logo"> 
     </div>
 </body>
 </html>
