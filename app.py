@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_talisman import Talisman
 import requests
 from icalendar import Calendar
 from datetime import datetime, timedelta
@@ -6,6 +7,7 @@ import pytz
 from itertools import groupby
 
 app = Flask(__name__)
+Talisman(app)
 
 def fetch_ics(url):
     response = requests.get(url)
