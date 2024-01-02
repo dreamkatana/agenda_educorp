@@ -3,31 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Agenda</title>
-    <!-- Add any styles or links to stylesheets here -->
     <link rel="stylesheet" type="text/css" href="https://servicos.educorp.unicamp.br/static/css/style.css">
 </head>
 <body>
     <div class="container">
         <h1>AGENDA - {{ current_date }}</h1>
-        {% for location, events in events_by_location.items() %}
-            <h2 class="location-header">{{ location }}</h2>
-            <hr>
-            {% for event in events %}
-                <div class="event">
-                    <div class="event-summary">{{ event.summary }}</div>
-                    <div class="event-time">{{ event.start.strftime('%H:%M') }} - {{ event.end.strftime('%H:%M') }}</div>
-                </div>
+        <hr>
+
+        {% if events_by_location %}
+            {% for location, events in events_by_location.items() %}
+                <h2 class="location-header">{{ location }}</h2>
+                {% for event in events %}
+                    <div class="event">
+                        <div class="event-summary">{{ event.summary }}</div>
+                        <div class="event-time">{{ event.start.strftime('%H:%M') }} - {{ event.end.strftime('%H:%M') }}</div>
+                    </div>
+                {% endfor %}
             {% endfor %}
-            
         {% else %}
             <div>Sem eventos hoje.</div>
-        {% endfor %}
-
+        {% endif %}
     </div>
-    <!-- Logo at the bottom 
-    <img src="{{ url_for('static', filename='logo.png', _external=True) }}" alt="Logo">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css', _external=True) }}">
-    -->
+
+    <!-- Logo at the bottom -->
     <div class="logo-container">        
         <img src="https://servicos.educorp.unicamp.br/static/logo.png" alt="Logo"> 
     </div>

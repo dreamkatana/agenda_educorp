@@ -22,16 +22,18 @@ def parse_ics(ics_content):
         dtstart = component.get('dtstart').dt
         dtend = component.get('dtend').dt
 
-        # Convert to timezone-aware datetime objects if necessary
-        if not isinstance(dtstart, datetime):
-            dtstart = datetime.combine(dtstart, datetime.min.time(), sao_paulo_tz)
-        if dtstart.tzinfo is None or dtstart.tzinfo.utcoffset(dtstart) is None:
-            dtstart = sao_paulo_tz.localize(dtstart)
-        
-        if not isinstance(dtend, datetime):
-            dtend = datetime.combine(dtend, datetime.min.time(), sao_paulo_tz)
-        if dtend.tzinfo is None or dtend.tzinfo.utcoffset(dtend) is None:
-            dtend = sao_paulo_tz.localize(dtend)
+        # Convert to local time zone if datetime is timezone-aware (UTC)
+        if isinstance(dtstart, datetime) and dtstart.tzinfo is not None and dtstart.tzinfo.utcoffset(dtstart) is not None:
+            dtstart = dtstart.astimezone(sao_paulo_tz)
+        elif not isinstance(dtstart, datetime):
+            # Combine date with minimum time and localize to Sao Paulo timezone
+            dtstart = sao_paulo_tz.localize(datetime.combine(dtstart, datetime.min.time()))
+
+        if isinstance(dtend, datetime) and dtend.tzinfo is not None and dtend.tzinfo.utcoffset(dtend) is not None:
+            dtend = dtend.astimezone(sao_paulo_tz)
+        elif not isinstance(dtend, datetime):
+            # Combine date with minimum time and localize to Sao Paulo timezone
+            dtend = sao_paulo_tz.localize(datetime.combine(dtend, datetime.min.time()))
 
         events.append({
             'summary': str(component.get('summary')),
@@ -41,10 +43,14 @@ def parse_ics(ics_content):
     return events
 
 def filter_current_events(events):
-    #add 1 day to current date
-    #current_date = datetime.now(pytz.timezone('America/Sao_Paulo')).date() + timedelta(days=2)
-    current_date = datetime.now(pytz.timezone('America/Sao_Paulo')).date() 
-    return [event for event in events if event['start'].date() <= current_date and event['end'].date() >= current_date]
+    now = datetime.now(pytz.timezone('America/Sao_Paulo'))
+    return [event for event in events if event['start'] <= now <= event['end']]
+
+def filter_todays_events(events):
+    today = datetime.now(pytz.timezone('America/Sao_Paulo')).date()
+    return [event for event in events if event['start'].date() <= today <= event['end'].date()]
+
+
 
 @app.route('/agenda')
 def index():
@@ -63,17 +69,20 @@ def index():
     for location, ics_url in dic_events.items():
         ics_content = fetch_ics(ics_url)
         events = parse_ics(ics_content)
-        current_events = filter_current_events(events)
-        for event in current_events:
+        for event in events:
             event['location'] = location
             all_events.append(event)
 
-    # Group events by location and sort by start time
-    all_events.sort(key=lambda x: (x['location'], x['start']))
-    events_by_location = {k: list(g) for k, g in groupby(all_events, key=lambda x: x['location'])}
+    # Filter events
+    current_events = filter_current_events(all_events)
+    todays_events = filter_todays_events(all_events)
+
+    # Group events by location and sort by start time (optional)
+    todays_events.sort(key=lambda x: (x['location'], x['start']))
+    events_by_location = {k: list(g) for k, g in groupby(todays_events, key=lambda x: x['location'])}
 
     current_date = datetime.now(pytz.timezone('America/Sao_Paulo')).strftime("%d/%m/%Y")
-    return render_template('index.html', events_by_location=events_by_location, current_date=current_date)
+    return render_template('index.html', current_events=current_events, events_by_location=events_by_location, current_date=current_date)
 
 if __name__ == '__main__':
     app.run(debug=True)
