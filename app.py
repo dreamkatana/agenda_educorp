@@ -14,6 +14,26 @@ def fetch_ics(url):
     response.raise_for_status()
     return response.text
 
+def get_rrule_events(component, sao_paulo_tz):
+    # Get the RRULE property
+    rrule_prop = component.get('rrule')
+    rrule_str = 'RRULE:' + rrule_prop.to_ical().decode('utf-8')
+    # Start and end times
+    dtstart = component.get('dtstart').dt.astimezone(sao_paulo_tz)
+    dtend = component.get('dtend').dt.astimezone(sao_paulo_tz)
+    # Duration
+    duration = dtend - dtstart
+    # Generate rrule
+    rrule = rrulestr(rrule_str, dtstart=dtstart)
+    events = []
+    for occurrence in rrule:
+        events.append({
+            'summary': str(component.get('summary')),
+            'start': occurrence,
+            'end': occurrence + duration,
+        })
+    return events
+
 def parse_ics(ics_content):
     calendar = Calendar.from_ical(ics_content)
     events = []
