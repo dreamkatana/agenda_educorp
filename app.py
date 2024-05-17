@@ -7,7 +7,10 @@ import pytz
 from itertools import groupby
 
 app = Flask(__name__)
-Talisman(app)
+talisman = Talisman(app, content_security_policy={
+    'default-src': "'self'",
+    'script-src': "'self'"
+})
 
 def fetch_ics(url):
     response = requests.get(url)
